@@ -11,8 +11,6 @@ internal static class GameInit
     private static void Initialize_Postfix(ModeControllerBase __instance)
     {
         if (__instance == MVGameControllerDesktop.Instance.modeController)
-        {
             InitCallbacks.InvokeInitMethods();
-        }
     }
 }

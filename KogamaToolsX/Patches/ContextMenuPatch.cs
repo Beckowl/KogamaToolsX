@@ -15,7 +15,8 @@ internal static class ContextMenuPatch
         MVWorldObjectClient wo = __instance.selectedWorldObject;
         ContextMenu menu = __instance.currentContextMenu;
 
-        if (wo == null || menu == null) return;
+        if (wo == null || menu == null)
+            return;
 
         foreach (var item in CustomContextMenu.GetButtons(wo))
         {
