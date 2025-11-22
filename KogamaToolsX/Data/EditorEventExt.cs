@@ -38,5 +38,5 @@ public enum EditorEventExt
 
 
     ESTest = CustomFSMStates.EVENT_EXT_BEGIN,
-    ESFoo,
+    ESGroupObjects,
 }

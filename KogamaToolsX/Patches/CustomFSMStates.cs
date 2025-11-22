@@ -14,7 +14,8 @@ internal static class CustomFSMStates
 
     private static readonly Dictionary<EditorEventExt, ESStateCustomBase> transitionTable = new()
     {
-        { EditorEventExt.ESTest, new ESTest() }
+        { EditorEventExt.ESTest, new ESTest() },
+        { EditorEventExt.ESGroupObjects, new ESGroupObjects() }
     };
 
     private static bool HandleCustomState(FSMEntity e, Action<ESStateCustomBase, FSMEntity> invoke)

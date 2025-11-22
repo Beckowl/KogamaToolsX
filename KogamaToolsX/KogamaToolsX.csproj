@@ -34,6 +34,9 @@
     <Reference Include="Il2Cppmscorlib">
       <HintPath>Lib\Il2Cppmscorlib.dll</HintPath>
     </Reference>
+    <Reference Include="Il2CppSystem.Core">
+      <HintPath>Lib\Il2CppSystem.Core.dll</HintPath>
+    </Reference>
     <Reference Include="MVCommon">
       <HintPath>Lib\MVCommon.dll</HintPath>
     </Reference>

@@ -62,10 +62,9 @@ internal class ESStateCustomBase
     protected void TintObjectsOnMouseOver(EditorStateMachine e)
     {
         VoxelHit voxelHit = default;
-        // todo: reimplement object picker
 
-        //bool flag = EditModeObjectPicker.Pick(ref voxelHit, null, -262149);
-        //TintObjectsOnMouseOver(e, flag, voxelHit);
+        bool flag = EditModeObjectPicker.Pick(ref voxelHit, null, -262149);
+        TintObjectsOnMouseOver(e, flag, voxelHit);
     }
 
     protected void TintObjectsOnMouseOver(EditorStateMachine e, bool pickSuccess, VoxelHit hit)

@@ -1,12 +1,10 @@
-﻿using KogamaToolsX.Data;
+﻿using System;
+using KogamaToolsX.Data;
 
 namespace KogamaToolsX.EditorStates;
 internal class ESTest : ESStateCustomBase
 {
-    public ESTest()
-    {
-        this.stateType = EditorEventExt.ESTest;
-    }
+    public ESTest() => stateType = EditorEventExt.ESTest;
 
     public override void Enter(EditorStateMachine esm)
     {
@@ -15,6 +13,8 @@ internal class ESTest : ESStateCustomBase
 
     public override void Execute(EditorStateMachine e)
     {
+        MVWorldObjectClientManager wocm = MVGameControllerBase.WOCM;
+
         Plugin.Logger.LogInfo("ESTest execute");
         e.PopState();
     }
