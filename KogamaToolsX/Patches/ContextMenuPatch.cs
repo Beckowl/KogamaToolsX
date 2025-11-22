@@ -1,7 +1,7 @@
 ﻿
 using System;
 using HarmonyLib;
-using KogamaToolsX.Utils;
+using static KogamaToolsX.Utils.CustomContextMenu;
 
 namespace KogamaToolsX.Patches;
 
@@ -18,15 +18,21 @@ internal static class ContextMenuPatch
         if (wo == null || menu == null)
             return;
 
-        foreach (var item in CustomContextMenu.GetButtons(wo))
-        {
-            Action callback = () =>
-            {
-                item.Callback(wo);
-                menu.Pop();
-            };
+        foreach (var item in GetButtons(wo))
+            menu.AddButton(item, wo);
+    }
 
-            menu.AddButton(item.Label, callback);
-        }
+    private static void AddButton(this ContextMenu menu, ContextMenuItem item, MVWorldObjectClient target)
+    {
+        Action callback = () =>
+        {
+            item.Callback(target);
+            menu.Pop();
+        };
+
+        var button = UnityEngine.Object.Instantiate(menu.contextMenuButtonPrefab);
+        button.Initialize(item.Label, callback);
+        button.transform.SetParent(menu.transform, false);
+        button.transform.SetSiblingIndex(0);
     }
 }
