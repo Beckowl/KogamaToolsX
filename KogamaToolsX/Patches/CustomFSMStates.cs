@@ -10,7 +10,9 @@ namespace KogamaToolsX.Patches;
 [HarmonyPatch]
 internal static class CustomFSMStates
 {
-    private static Dictionary<EditorEventExt, ESStateCustomBase> transitionTable = new()
+    internal const int EVENT_EXT_BEGIN = 1000;
+
+    private static readonly Dictionary<EditorEventExt, ESStateCustomBase> transitionTable = new()
     {
         { EditorEventExt.ESTest, new ESTest() }
     };
@@ -48,7 +50,7 @@ internal static class CustomFSMStates
         EditorEventExt next = value.ToEnum<EditorEventExt>();
 
         // if not an extended event, run original setter
-        if (next < EditorEventExt.EVENT_EXT_BEGIN)
+        if ((int)next < EVENT_EXT_BEGIN)
             return true;
 
         if (e.lockState)
@@ -89,6 +91,7 @@ internal static class CustomFSMStates
 
     internal static void PushState(this FSMEntity e, EditorEventExt nextState)
     => e.PushState(nextState, EditorEventExt.UndefinedState);
+
     internal static void PushState(this FSMEntity e, EditorEventExt nextState, EditorEventExt overridePushState)
         => e.PushState((EditorEvent)nextState, (EditorEvent)overridePushState);
 

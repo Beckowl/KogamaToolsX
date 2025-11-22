@@ -1,4 +1,6 @@
-﻿namespace KogamaToolsX.Data;
+﻿using KogamaToolsX.Patches;
+
+namespace KogamaToolsX.Data;
 
 public enum EditorEventExt
 {
@@ -34,6 +36,7 @@ public enum EditorEventExt
     ESWaitForPlayModeAvatar,
     ESWaitForBuildModeAvatar,
 
-    EVENT_EXT_BEGIN,
-    ESTest = EVENT_EXT_BEGIN,
+
+    ESTest = CustomFSMStates.EVENT_EXT_BEGIN,
+    ESFoo,
 }
