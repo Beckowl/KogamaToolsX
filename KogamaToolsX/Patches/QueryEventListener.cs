@@ -13,7 +13,7 @@ internal static class QueryEventListener
     [HarmonyPostfix]
     private static void CreateQueryEvent_Postfix(MVWorldObjectClient root, int instigatorActorNumber)
     {
-        if (!MVGameControllerBase.IsInitialized) 
+        if (!MVGameControllerBase.IsInitialized)
             return;
 
         OnQueryEvent?.Invoke(root, instigatorActorNumber);

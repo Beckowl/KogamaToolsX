@@ -12,4 +12,11 @@ internal static class Il2CppEnum
 
         return new Il2CppSystem.Object(obj);
     }
+
+    internal static unsafe T ToEnum<T>(this Il2CppSystem.Object il2CppObject) where T : Enum
+    {
+        long enumValue = *(long*)((byte*)il2CppObject.Pointer + 8);
+
+        return (T)Enum.ToObject(typeof(T), enumValue);
+    }
 }

@@ -32,5 +32,8 @@ public enum EditorEventExt
     ESEditCubeTutorial,
     ESLeaveCubeTutorial,
     ESWaitForPlayModeAvatar,
-    ESWaitForBuildModeAvatar
+    ESWaitForBuildModeAvatar,
+
+    EVENT_EXT_BEGIN,
+    ESTest = EVENT_EXT_BEGIN,
 }

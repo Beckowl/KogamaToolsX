@@ -1,6 +1,13 @@
-﻿namespace KogamaToolsX.EditorStates;
-internal class ESTest : ESStateBase
+﻿using KogamaToolsX.Data;
+
+namespace KogamaToolsX.EditorStates;
+internal class ESTest : ESStateCustomBase
 {
+    public ESTest()
+    {
+        this.stateType = EditorEventExt.ESTest;
+    }
+
     public override void Enter(EditorStateMachine esm)
     {
         Plugin.Logger.LogInfo("ESTest enter");
@@ -8,7 +15,7 @@ internal class ESTest : ESStateBase
 
     public override void Execute(EditorStateMachine e)
     {
-        Plugin.Logger.LogInfo("ESTest enter");
+        Plugin.Logger.LogInfo("ESTest execute");
         e.PopState();
     }
 
