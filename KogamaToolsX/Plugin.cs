@@ -2,6 +2,7 @@
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
+using KogamaToolsX.Model;
 using KogamaToolsX.Utils;
 
 namespace KogamaToolsX;
@@ -17,6 +18,8 @@ public class Plugin : BasePlugin
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
 
         harmony.PatchAll();
+
+        AddComponent<CustomDeltaQueue>();
     }
 
     [InvokeOnInit]
