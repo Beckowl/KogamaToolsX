@@ -1,4 +1,7 @@
-﻿using KogamaToolsX.Data;
+﻿using System;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using KogamaToolsX.Data;
+using KogamaToolsX.Utils;
 
 namespace KogamaToolsX.EditorStates;
 
@@ -6,22 +9,29 @@ internal class ESGroupObjects : ESStateCustomBase
 {
     // static is fine, ESWaitForGroup will lock state
     private static ESWaitForGroup grouper = new();
+    private bool success = false;
 
     public ESGroupObjects() => stateType = EditorEventExt.ESGroupObjects;
 
     public override void Enter(EditorStateMachine e)
     {
+        success = false;
         int numTargets = 0;
+        var selected = new Il2CppStructArray<int>(IntPtr.Zero);
 
-        foreach (var wo in e.SelectedWOs)
+        e.SelectedIDs.CopyTo(selected);
+
+        foreach (var id in selected)
         {
+            var wo = MVGameControllerBase.WOCM.GetWorldObjectClient(id);
+
             if (CanGroupObject(wo))
                 numTargets++;
             else
-                TextCommand.NotifyUser($"<color=yellow>Cannot group {wo.type.ToString()}.");
+                e.DeSelectWorldObject(wo);
         }
 
-        if (numTargets <= 0)
+        if (numTargets < 2)
         {
             TextCommand.NotifyUser($"<color=yellow>Cannot group less than two objects.");
             e.PopState();
@@ -40,28 +50,34 @@ internal class ESGroupObjects : ESStateCustomBase
         {
             TextCommand.NotifyUser($"<color=yellow>Failed to group objects.");
             e.PopState();
+
+            return;
         }
 
         grouper.Execute(e);
 
         // transfer wos is the last state
         if (grouper.responseReceived && grouper.state == ESWaitForGroup.WaitForGroupsState.WaitingForTransferWos)
+        {
+            success = true;
             e.PopState();
+        }
     }
 
     public override void Exit(EditorStateMachine e)
-        => TextCommand.NotifyUser($"<color=cyan>Objects grouped successfully.");
+    {
+        if (success)
+            TextCommand.NotifyUser($"<color=cyan>Objects grouped successfully.");
+    }
 
     private static bool CanGroupObject(MVWorldObjectClient wo)
     {
-        MV.WorldObject.WorldObjectType type = wo.type;
+        // TODO: add some kind of override to this
+        bool hasModel = wo.GetModel() != null;
 
-        // how do i check if a wo has a model???
-        return type != MV.WorldObject.WorldObjectType.WorldObjectSpawnerVehicle &&
-           type != MV.WorldObject.WorldObjectType.JetPack &&
-           type != MV.WorldObject.WorldObjectType.Teleporter &&
-           type != MV.WorldObject.WorldObjectType.CollectTheItemCollectable &&
-           type != MV.WorldObject.WorldObjectType.CollectTheItemDropOff &&
-           type != MV.WorldObject.WorldObjectType.CubeModel;
+        if (hasModel)
+            TextCommand.NotifyUser($"<color=yellow>Cannot group {wo.type.ToString()} because it contains a cube model.");
+
+        return !hasModel;
     }
 }
