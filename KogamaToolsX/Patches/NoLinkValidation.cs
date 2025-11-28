@@ -4,7 +4,7 @@ using MV.WorldObject;
 namespace KogamaToolsX.Patches;
 
 [HarmonyPatch]
-internal class NoLinkValidation
+internal static class NoLinkValidation
 {
     // the og loop detection is poorly written,
     // and will freeze the game when the logic is large
