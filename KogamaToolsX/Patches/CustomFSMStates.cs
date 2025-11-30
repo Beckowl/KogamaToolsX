@@ -14,6 +14,8 @@ internal static class CustomFSMStates
 
     private static readonly Dictionary<EditorEventExt, ESStateCustomBase> overrideStates = new()
     {
+        { EditorEventExt.ESAddLink, new ESAddLinkFix() },
+        { EditorEventExt.ESAddObjectLink, new ESAddObjectLinkFix() },
         { EditorEventExt.ESTest, new ESTest() },
         { EditorEventExt.ESGroupObjects, new ESGroupObjects() }
     };

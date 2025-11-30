@@ -49,5 +49,8 @@
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>Lib\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>Lib\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
