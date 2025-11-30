@@ -11,18 +11,18 @@ internal class ESStateCustomBase
     protected EditorEventExt stateType;
     protected WorldObjectClientRef tintedWo = MVWorldObjectClientManager.GetWorldObjectClientRefNullRef();
 
-    public void SetStateType(EditorEventExt stateTypeEvent) 
+    public void SetStateType(EditorEventExt stateTypeEvent)
         => stateType = stateTypeEvent;
 
     public virtual void Enter(EditorStateMachine esm) { }
     public virtual void Execute(EditorStateMachine e) { }
     public virtual void Exit(EditorStateMachine esm) { }
 
-    public void Enter(FSMEntity e) 
+    public void Enter(FSMEntity e)
         => Enter(e.Cast<EditorStateMachine>());
-    public void Execute(FSMEntity e) 
+    public void Execute(FSMEntity e)
         => Execute(e.Cast<EditorStateMachine>());
-    public void Exit(FSMEntity e) 
+    public void Exit(FSMEntity e)
         => Exit(e.Cast<EditorStateMachine>());
 
     protected void DeTintCurrent()

@@ -61,7 +61,7 @@ internal static class ModelUtils
         }
     }
 
-    internal static bool IsOwned(this RuntimePrototypeCubeModel model) 
+    internal static bool IsOwned(this RuntimePrototypeCubeModel model)
         => model.AuthorProfileID == -1 || model.AuthorProfileID == MVGameControllerBase.LocalPlayer.ProfileID;
 
     internal static bool IsOwned(this MVCubeModelBase model) => model.prototypeCubeModel.IsOwned();

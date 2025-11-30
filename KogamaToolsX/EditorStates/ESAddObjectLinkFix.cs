@@ -21,7 +21,7 @@ internal class ESAddObjectLinkFix : ESStateCustomBase
                 return;
             }
 
-            tempLink = new ObjectLink();      
+            tempLink = new ObjectLink();
 
             if (wo.selectedConnector != SelectedConnector.Object)
             {

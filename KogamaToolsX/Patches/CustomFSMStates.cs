@@ -33,17 +33,17 @@ internal static class CustomFSMStates
 
     [HarmonyPatch(typeof(ESStateBase), "Enter", [typeof(FSMEntity)])]
     [HarmonyPrefix]
-    private static bool ESStateBase_Enter_Prefix(FSMEntity e) 
+    private static bool ESStateBase_Enter_Prefix(FSMEntity e)
         => HandleCustomState(e, (s, ent) => s.Enter(ent));
 
     [HarmonyPatch(typeof(ESStateBase), "Execute", [typeof(FSMEntity)])]
     [HarmonyPrefix]
-    private static bool ESStateBase_Execute_Prefix(FSMEntity e) 
+    private static bool ESStateBase_Execute_Prefix(FSMEntity e)
         => HandleCustomState(e, (s, ent) => s.Execute(ent));
 
     [HarmonyPatch(typeof(ESStateBase), "Exit", [typeof(FSMEntity)])]
     [HarmonyPrefix]
-    private static bool ESStateBase_Exit_Prefix(FSMEntity e) 
+    private static bool ESStateBase_Exit_Prefix(FSMEntity e)
         => HandleCustomState(e, (s, ent) => s.Exit(ent));
 
     [HarmonyPatch(typeof(FSMEntity), nameof(FSMEntity.Event), MethodType.Setter)]

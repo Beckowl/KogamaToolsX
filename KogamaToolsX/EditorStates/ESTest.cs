@@ -1,5 +1,4 @@
-﻿using System;
-using KogamaToolsX.Data;
+﻿using KogamaToolsX.Data;
 
 namespace KogamaToolsX.EditorStates;
 internal class ESTest : ESStateCustomBase
