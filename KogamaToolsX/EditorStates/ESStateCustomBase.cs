@@ -9,19 +9,21 @@ internal class ESStateCustomBase
 {
     private MVWorldObjectClientManager WOCM => MVGameControllerBase.WOCM;
     protected EditorEventExt stateType;
-
     protected WorldObjectClientRef tintedWo = MVWorldObjectClientManager.GetWorldObjectClientRefNullRef();
-    private EditorEventExt StateType => stateType;
 
-    public void SetStateType(EditorEventExt stateTypeEvent) => stateType = stateTypeEvent;
+    public void SetStateType(EditorEventExt stateTypeEvent) 
+        => stateType = stateTypeEvent;
 
     public virtual void Enter(EditorStateMachine esm) { }
     public virtual void Execute(EditorStateMachine e) { }
     public virtual void Exit(EditorStateMachine esm) { }
 
-    public void Enter(FSMEntity e) => Enter((EditorStateMachine)e);
-    public void Execute(FSMEntity e) => Execute((EditorStateMachine)e);
-    public void Exit(FSMEntity e) => Exit((EditorStateMachine)e);
+    public void Enter(FSMEntity e) 
+        => Enter(e.Cast<EditorStateMachine>());
+    public void Execute(FSMEntity e) 
+        => Execute(e.Cast<EditorStateMachine>());
+    public void Exit(FSMEntity e) 
+        => Exit(e.Cast<EditorStateMachine>());
 
     protected void DeTintCurrent()
     {

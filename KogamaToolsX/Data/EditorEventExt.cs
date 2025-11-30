@@ -1,9 +1,9 @@
-﻿using KogamaToolsX.Patches;
-
-namespace KogamaToolsX.Data;
+﻿namespace KogamaToolsX.Data;
 
 public enum EditorEventExt
 {
+    // vanilla states
+
     EditCubes,
     SelectCubes = 3,
     Rotating = 5,
@@ -36,7 +36,10 @@ public enum EditorEventExt
     ESWaitForPlayModeAvatar,
     ESWaitForBuildModeAvatar,
 
+    ExtStateBegin = 10000,
 
-    ESTest = CustomFSMStates.EVENT_EXT_BEGIN,
+    // custom states
+
+    ESTest,
     ESGroupObjects,
 }

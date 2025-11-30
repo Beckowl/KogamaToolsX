@@ -10,9 +10,9 @@ namespace KogamaToolsX.Patches;
 [HarmonyPatch]
 internal static class CustomFSMStates
 {
-    internal const int EVENT_EXT_BEGIN = 1000;
+    // Add am entry to this dictonary to override an existing state or to register a custom state
 
-    private static readonly Dictionary<EditorEventExt, ESStateCustomBase> transitionTable = new()
+    private static readonly Dictionary<EditorEventExt, ESStateCustomBase> overrideStates = new()
     {
         { EditorEventExt.ESTest, new ESTest() },
         { EditorEventExt.ESGroupObjects, new ESGroupObjects() }
@@ -20,11 +20,9 @@ internal static class CustomFSMStates
 
     private static bool HandleCustomState(FSMEntity e, Action<ESStateCustomBase, FSMEntity> invoke)
     {
-        EditorEventExt evt = e.GetCustomEvent();
-        if (evt == EditorEventExt.UndefinedState)
-            return true;
+        EditorEventExt evt = e.curEvent.ToEnum<EditorEventExt>();
 
-        if (!transitionTable.TryGetValue(evt, out var state) || state == null)
+        if (!overrideStates.TryGetValue(evt, out var state) || state == null)
             return true;
 
         invoke(state, e);
@@ -33,15 +31,18 @@ internal static class CustomFSMStates
 
     [HarmonyPatch(typeof(ESStateBase), "Enter", [typeof(FSMEntity)])]
     [HarmonyPrefix]
-    private static bool ESStateBase_Enter_Prefix(FSMEntity e) => HandleCustomState(e, (s, ent) => s.Enter(ent));
+    private static bool ESStateBase_Enter_Prefix(FSMEntity e) 
+        => HandleCustomState(e, (s, ent) => s.Enter(ent));
 
     [HarmonyPatch(typeof(ESStateBase), "Execute", [typeof(FSMEntity)])]
     [HarmonyPrefix]
-    private static bool ESStateBase_Execute_Prefix(FSMEntity e) => HandleCustomState(e, (s, ent) => s.Execute(ent));
+    private static bool ESStateBase_Execute_Prefix(FSMEntity e) 
+        => HandleCustomState(e, (s, ent) => s.Execute(ent));
 
     [HarmonyPatch(typeof(ESStateBase), "Exit", [typeof(FSMEntity)])]
     [HarmonyPrefix]
-    private static bool ESStateBase_Exit_Prefix(FSMEntity e) => HandleCustomState(e, (s, ent) => s.Exit(ent));
+    private static bool ESStateBase_Exit_Prefix(FSMEntity e) 
+        => HandleCustomState(e, (s, ent) => s.Exit(ent));
 
     [HarmonyPatch(typeof(FSMEntity), nameof(FSMEntity.Event), MethodType.Setter)]
     [HarmonyPrefix]
@@ -50,8 +51,7 @@ internal static class CustomFSMStates
         FSMEntity e = __instance;
         EditorEventExt next = value.ToEnum<EditorEventExt>();
 
-        // if not an extended event, run original setter
-        if ((int)next < EVENT_EXT_BEGIN)
+        if (!overrideStates.TryGetValue(next, out var state))
             return true;
 
         if (e.lockState)
@@ -65,8 +65,6 @@ internal static class CustomFSMStates
             e.currentState = null;
             return false;
         }
-
-        transitionTable.TryGetValue(next, out var state);
 
         if (state != null)
         {
@@ -91,17 +89,8 @@ internal static class CustomFSMStates
     }
 
     internal static void PushState(this FSMEntity e, EditorEventExt nextState)
-    => e.PushState(nextState, EditorEventExt.UndefinedState);
+        => e.PushState(nextState, EditorEventExt.UndefinedState);
 
     internal static void PushState(this FSMEntity e, EditorEventExt nextState, EditorEventExt overridePushState)
         => e.PushState((EditorEvent)nextState, (EditorEvent)overridePushState);
-
-    internal static EditorEventExt GetCustomEvent(this FSMEntity e)
-    {
-        if (e.curEvent == null)
-            return EditorEventExt.UndefinedState;
-
-        var ext = e.curEvent.ToEnum<EditorEventExt>();
-        return Enum.IsDefined(typeof(EditorEvent), (int)ext) ? EditorEventExt.UndefinedState : ext;
-    }
 }
