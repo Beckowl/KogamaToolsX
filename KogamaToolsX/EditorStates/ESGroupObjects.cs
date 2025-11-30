@@ -11,7 +11,8 @@ internal class ESGroupObjects : ESStateCustomBase
     private static ESWaitForGroup grouper = new();
     private bool success = false;
 
-    public ESGroupObjects() => stateType = EditorEventExt.ESGroupObjects;
+    public ESGroupObjects() 
+        => stateType = EditorEventExt.ESGroupObjects;
 
     public override void Enter(EditorStateMachine e)
     {

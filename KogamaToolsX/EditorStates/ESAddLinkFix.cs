@@ -10,6 +10,9 @@ internal class ESAddLinkFix : ESStateCustomBase
     private WorldObjectClientRef woRef;
     private SelectedConnector startSelectorType;
 
+    public ESAddLinkFix() 
+        => stateType = Data.EditorEventExt.ESAddLink;
+
     public override void Enter(EditorStateMachine e)
     {
         VoxelHit vhit = new();

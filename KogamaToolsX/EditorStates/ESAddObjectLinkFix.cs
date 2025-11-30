@@ -7,6 +7,9 @@ internal class ESAddObjectLinkFix : ESStateCustomBase
     private ObjectLink tempLink;
     private WorldObjectClientRef woRef;
 
+    public ESAddObjectLinkFix() 
+        => stateType = Data.EditorEventExt.ESAddObjectLink;
+
     public override void Enter(EditorStateMachine e)
     {
         VoxelHit vhit = new();

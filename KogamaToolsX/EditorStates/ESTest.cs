@@ -3,7 +3,8 @@
 namespace KogamaToolsX.EditorStates;
 internal class ESTest : ESStateCustomBase
 {
-    public ESTest() => stateType = EditorEventExt.ESTest;
+    public ESTest() 
+        => stateType = EditorEventExt.ESTest;
 
     public override void Enter(EditorStateMachine esm)
     {
